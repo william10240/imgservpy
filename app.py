@@ -8,16 +8,11 @@ from multidict import CIMultiDict
 # import memcache
 import redis
 
-if(platform.system()=='Linux'):
-    USEIP = '192.168.31.130'
-else:
-    USEIP = '127.0.0.1'
-
 APP_PATH = os.path.split(os.path.realpath(__file__))[0]
 PHOTO_PATH=os.path.join(APP_PATH, 'photos')
 STATIC_PATH=os.path.join(APP_PATH,'static')
 
-rds = redis.Redis(host='localhost', port=26379, db=0)
+rds = redis.Redis(host='rds', port=6379, db=0)
 
 def index(request):
     return web.Response(body=b'<a href="p">who are you :)</a>', status=200,
@@ -102,12 +97,16 @@ async def init(loop):
     app.router.add_route('*','/u',upload)
     app.router.add_route('*','/p',p)
     app.router.add_route('*','/imageserver/p',p)
-    srv=await loop.create_server(app.make_handler(),USEIP,7003)
-    logging.info('system start at port http://'+USEIP+':7003')
+    srv=await loop.create_server(app.make_handler(),"127.0.0.1",80)
+    logging.info('system start at port http://127.0.0.1:80')
     return srv
 
 
 if  __name__=='__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(init(loop))
-    loop.run_forever()
+    app = web.Application(debug=True)
+    app.add_routes([
+        web.route('*','/',index),
+        web.route('*','/u',upload),
+        web.route('*','/p',p)
+        ])
+    web.run_app(app,port=80)
