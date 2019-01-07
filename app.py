@@ -14,10 +14,11 @@ STATIC_PATH=os.path.join(APP_PATH,'static')
 
 rds = redis.Redis(host='rds', port=6379, db=0)
 
-def index(request):
-    return web.Response(body=b'<a href="p">who are you :)</a>', status=200,
-                 reason=None, text=None, headers=None, content_type='text/html',
-                 charset=None)
+async def index(request):
+    # return web.Response(body=b'<a href="p">who are you :)</a>', status=200,
+    #              reason=None, text=None, headers=None, content_type='text/html',
+    #              charset=None)
+    raise web.HTTPFound('/p')
 
 async def upload(request):
     header = CIMultiDict()
@@ -38,7 +39,7 @@ async def upload(request):
     # header.add('Access-Control-Allow-Methods', '*')
     # header.add('Access-Control-Allow-Headers', 'x-requested-with,content-type')
 
-def p(request):
+async def p(request):
 
     #fname = request.match_info.get('fname')
     if 'uuid' not in request.query:
@@ -72,7 +73,7 @@ def p(request):
 
 
 
-def getPhotoCache(uuid):
+async def getPhotoCache(uuid):
     img = rds.get(uuid)
     if img:
         logging.info('读取缓存:' + uuid)
@@ -89,20 +90,9 @@ def getPhotoCache(uuid):
             return rs
 
 
-async def init(loop):
+if  __name__=='__main__':
     if not os.path.exists(PHOTO_PATH):
         os.mkdir(PHOTO_PATH)
-    app=web.Application(loop=loop,debug=True)
-    app.router.add_route('*','/',index)
-    app.router.add_route('*','/u',upload)
-    app.router.add_route('*','/p',p)
-    app.router.add_route('*','/imageserver/p',p)
-    srv=await loop.create_server(app.make_handler(),"127.0.0.1",80)
-    logging.info('system start at port http://127.0.0.1:80')
-    return srv
-
-
-if  __name__=='__main__':
     app = web.Application(debug=True)
     app.add_routes([
         web.route('*','/',index),
@@ -110,3 +100,4 @@ if  __name__=='__main__':
         web.route('*','/p',p)
         ])
     web.run_app(app,port=80)
+    logging.info('system start at port http://127.0.0.1:80')
