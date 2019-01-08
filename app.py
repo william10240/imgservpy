@@ -99,5 +99,4 @@ if  __name__=='__main__':
         web.route('*','/u',upload),
         web.route('*','/p',p)
         ])
-    web.run_app(app,port=80)
-    logging.info('system start at port http://127.0.0.1:80')
+    web.run_app(app,port=83)

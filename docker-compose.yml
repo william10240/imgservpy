@@ -13,7 +13,7 @@ services:
     volumes:
       - ./:/usr/src/myapp
     ports: 
-      - 83:80
+      - 83:83
     command: python3 /usr/src/myapp/app.py
     depends_on:
       - rds
