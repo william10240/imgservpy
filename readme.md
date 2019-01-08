@@ -19,6 +19,7 @@ http://localhost:83/p?uuid=5fdc39c27d5d11e6ba7cb827eb6f00ae 显示指定一张�
     "data": "b95a32ec0d7f11e990a4a8667f057892"
 }
 ```
+![upload image](https://raw.githubusercontent.com/williamyan1024/img/master/py_ImageServer1.jpg)
 
 todo:
 
