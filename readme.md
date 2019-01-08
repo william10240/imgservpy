@@ -1,15 +1,16 @@
 #Python 图片服务
 
-app.mem.py  使用memcache做缓存
-app.redis.py    使用redis做缓存
 
-启动服务: Python3 app.redis.js
+docker启动: docker-compsoe up -d,启动后端口为 83
 
-http://localhost/p  随机显示一张图片
+原生启动: Python3 app.js,启动后端口为 80
 
-http://localhost/p?uuid=xxxxxxx  显示指定一张图片
+启动后:
+http://localhost:83/p  随机显示一张图片
 
-[post]http://localhost/u (file) 上传一张图片,返回数据的data为存储的uuid
+http://localhost:83/p?uuid=5fdc39c27d5d11e6ba7cb827eb6f00ae 显示指定一张图片
+
+[post]http://localhost:83/u (file) 上传一张图片,返回数据的data为存储的uuid,返回code不为0则表示出错
 
 ```
 {
@@ -21,18 +22,10 @@ http://localhost/p?uuid=xxxxxxx  显示指定一张图片
 
 todo:
 
-memcache和redis调用合并
-
 通过配置文件配置连接地址和链接方式
 
 添加鉴权防盗链
 
 添加在线压缩和压缩后缓存功能
 
-添加远程图片读取(热跟新)功能
-
-
-
-
-
-tip:任重而道远
+添加远程图片读取(热更新)功能
