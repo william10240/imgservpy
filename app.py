@@ -71,8 +71,6 @@ async def p(request):
             header.add('X-mem-cache', 'MISS')
             return web.Response(body=rs, content_type='image/jpeg', headers=header)
 
-
-
 async def getPhotoCache(uuid):
     img = rds.get(uuid)
     if img:
