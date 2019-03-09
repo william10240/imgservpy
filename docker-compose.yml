@@ -8,12 +8,13 @@ services:
       # - 6379:6379
     restart: always
   iserv:
-    # build: ./conf.d
+    build: ./conf.d
     image: williamyan/iserv:3.5-alpine
+    # image: iserv:3.5-alpine
     volumes:
       - ./:/usr/src/app
     ports: 
-      - 83:83
+      - 27005:27005
     command: python3 /usr/src/app/app.py
     depends_on:
       - rds

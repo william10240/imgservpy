@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed \
     redis==3.0.1 \
     yarl==1.3.0
 
-EXPOSE 83
+EXPOSE 27005
 
 CMD ["python3"]
 
