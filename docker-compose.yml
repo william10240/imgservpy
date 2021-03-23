@@ -1,21 +1,20 @@
 
-version: '2'
+version: '3'
 
 services:
   rds:
     image: redis:3.2.11-alpine
-    # ports: 
-      # - 6379:6379
+    container_name: pyimgservrds
     restart: always
   iserv:
-    build: ./conf.d
-    image: williamyan/iserv:3.5-alpine
-    # image: iserv:3.5-alpine
+    build: .
+    image: pyimgserv
+    container_name: pyimgserv
     volumes:
       - ./:/usr/src/app
     ports: 
-      - 27005:27005
-    command: python3 /usr/src/app/app.py
+      - 27010:27005
+    command: "python3 /usr/src/app/app.py"
     depends_on:
       - rds
     restart: always
